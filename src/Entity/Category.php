@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
-#[ORM\Entity(repositoryClass: VideoRepository::class)]
-#[ORM\Table(name: 'videos')]
-class Video implements JsonSerializable
+#[ORM\Entity()]
+#[ORM\Table(name: 'categories')]
+class Category implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
@@ -21,10 +20,7 @@ class Video implements JsonSerializable
     private string $title;
 
     #[ORM\Column(type: Types::STRING)]
-    private string $description;
-
-    #[ORM\Column(type: Types::STRING)]
-    private string $url;
+    private string $color;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private DateTimeImmutable $createdAt;
@@ -45,10 +41,9 @@ class Video implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'url'         => $this->url,
+            'id'    => $this->id,
+            'title' => $this->title,
+            'color' => $this->color
         ];
     }
 }

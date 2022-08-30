@@ -54,6 +54,7 @@ class VideoFactory implements iVideoFactory
     /**
      * @param int $id
      * @return void
+     * @throws MissingParamError
      */
     public function validateEntityId(int $id): void
     {
@@ -63,8 +64,9 @@ class VideoFactory implements iVideoFactory
     }
 
     /**
-     * @param video $video
+     * @param Video $video
      * @return void
+     * @throws MissingParamError|InvalidParamError
      */
     public function validateEntityParams(object $video): void
     {

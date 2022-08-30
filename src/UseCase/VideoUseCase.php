@@ -39,6 +39,8 @@ class VideoUseCase implements iVideoUseCase
         $entity = $this->videoFactory->createEntity($data);
 
         $this->videoRepository->add($entity);
+
+        return;
     }
 
     /**
@@ -69,6 +71,8 @@ class VideoUseCase implements iVideoUseCase
         $entity = $this->videoFactory->updateEntity($data, $existEntity);
 
         $this->videoRepository->update($entity, $id);
+
+        return;
     }
 
     /**
@@ -80,11 +84,14 @@ class VideoUseCase implements iVideoUseCase
         $this->videoFactory->validateEntityId($id);
         $this->checkIfEntityExists($id);
         $this->videoRepository->delete($id);
+
+        return;
     }
 
     /**
      * @param int $id
      * @return Video
+     * @throws NotFoundError
      */
     private function checkIfEntityExists(int $id): Video
     {

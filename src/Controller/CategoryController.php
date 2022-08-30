@@ -2,31 +2,32 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Interface\Controller\iController;
-use App\Interface\UseCase\iVideoUseCase;
+use App\Interface\UseCase\iCategoryUseCase;
 use App\Presentation\Helper\HttpResponse;
-use App\Repository\VideoRepository;
-use App\UseCase\VideoUseCase;
+use App\Repository\CategoryRepository;
+use App\UseCase\CategoryUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class VideoController extends AbstractController implements iController
+class CategoryController extends AbstractController implements iController
 {
-    private iVideoUseCase $videoUseCase;
+    private iCategoryUseCase $categoryUseCase;
 
-    public function __construct(VideoRepository $videoRepository)
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->videoUseCase = new VideoUseCase($videoRepository);
+        $this->categoryUseCase = new CategoryUseCase($categoryRepository);
     }
 
-    #[Route(path: '/api/videos', name: 'all_videos', methods: ['GET'])]
+    #[Route(path: '/api/categories', name: 'all_categories', methods: ['GET'])]
     public function all(): JsonResponse
     {
         try {
-            /** @var Video[] $entities */
-            $entities = $this->videoUseCase->all();
+            /** @var Category[] $entities */
+            $entities = $this->categoryUseCase->all();
 
             return HttpResponse::ok($entities);
         } catch (\Exception $e) {
@@ -34,12 +35,12 @@ class VideoController extends AbstractController implements iController
         }
     }
 
-    #[Route(path: '/api/videos', name: 'create_video', methods: ['POST'])]
+    #[Route(path: '/api/categories', name: 'create_category', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
         try {
             $data = $request->getContent();
-            $this->videoUseCase->create($data);
+            $this->categoryUseCase->create($data);
 
             return HttpResponse::created();
         } catch (\Exception $e) {
@@ -47,11 +48,11 @@ class VideoController extends AbstractController implements iController
         }
     }
 
-    #[Route(path: '/api/video/{id}', name: 'get_video', methods: ['GET'])]
+    #[Route(path: '/api/category/{id}', name: 'get_category', methods: ['GET'])]
     public function show(int $id): JsonResponse
     {
         try {
-            $entity = $this->videoUseCase->show($id);
+            $entity = $this->categoryUseCase->show($id);
 
             return HttpResponse::ok($entity);
         } catch (\Exception $e) {
@@ -59,12 +60,12 @@ class VideoController extends AbstractController implements iController
         }
     }
 
-    #[Route(path: '/api/video/{id}', name: 'update_video', methods: ['PUT', 'PATCH'])]
+    #[Route(path: '/api/category/{id}', name: 'update_category', methods: ['PUT', 'PATCH'])]
     public function update(Request $request, int $id): JsonResponse
     {
         try {
             $data = $request->getContent();
-            $this->videoUseCase->update($data, $id);
+            $this->categoryUseCase->update($data, $id);
 
             return HttpResponse::ok();
         } catch (\Exception $e) {
@@ -72,11 +73,11 @@ class VideoController extends AbstractController implements iController
         }
     }
 
-    #[Route(path: '/api/video/{id}', name: 'delete_video', methods: ['DELETE'])]
+    #[Route(path: '/api/category/{id}', name: 'delete_category', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
         try {
-            $this->videoUseCase->delete($id);
+            $this->categoryUseCase->delete($id);
 
             return HttpResponse::ok();
         } catch (\Exception $e) {
