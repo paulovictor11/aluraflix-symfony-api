@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Interface\Controller\iController;
 use App\Interface\UseCase\iVideoUseCase;
 use App\Presentation\Helper\HttpResponse;
+use App\Repository\CategoryRepository;
 use App\Repository\VideoRepository;
 use App\UseCase\VideoUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,9 +17,11 @@ class VideoController extends AbstractController implements iController
 {
     private iVideoUseCase $videoUseCase;
 
-    public function __construct(VideoRepository $videoRepository)
-    {
-        $this->videoUseCase = new VideoUseCase($videoRepository);
+    public function __construct(
+        VideoRepository $videoRepository,
+        CategoryRepository $categoryRepository
+    ) {
+        $this->videoUseCase = new VideoUseCase($videoRepository, $categoryRepository);
     }
 
     #[Route(path: '/api/videos', name: 'all_videos', methods: ['GET'])]

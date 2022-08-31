@@ -4,6 +4,7 @@ namespace App\UseCase;
 
 use App\Entity\Video;
 use App\Factory\VideoFactory;
+use App\Interface\Controller\iCategoryRepository;
 use App\Interface\Factory\iVideoFactory;
 use App\Interface\Repository\iVideoRepository;
 use App\Interface\UseCase\iVideoUseCase;
@@ -13,9 +14,11 @@ class VideoUseCase implements iVideoUseCase
 {
     private iVideoFactory $videoFactory;
 
-    public function __construct(private iVideoRepository $videoRepository)
-    {
-        $this->videoFactory = new VideoFactory();
+    public function __construct(
+        private iVideoRepository $videoRepository,
+        private iCategoryRepository $categoryRepository
+    ) {
+        $this->videoFactory = new VideoFactory($categoryRepository);
     }
 
     /**

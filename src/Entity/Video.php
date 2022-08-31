@@ -26,6 +26,10 @@ class Video implements JsonSerializable
     #[ORM\Column(type: Types::STRING)]
     private string $url;
 
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Category $category;
+
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private DateTimeImmutable $createdAt;
 
@@ -49,6 +53,7 @@ class Video implements JsonSerializable
             'title'       => $this->title,
             'description' => $this->description,
             'url'         => $this->url,
+            'category'    => $this->category
         ];
     }
 }

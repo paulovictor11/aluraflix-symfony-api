@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Entity\Video;
 use App\Interface\Factory\iVideoFactory;
 use App\Interface\Helper\iUrlValidator;
+use App\Repository\CategoryRepository;
 use App\Util\Error\InvalidParamError;
 use App\Util\Helper\UrlValidator;
 use DateTimeImmutable;
@@ -14,7 +15,7 @@ class VideoFactory implements iVideoFactory
 {
     private iUrlValidator $urlValidator;
 
-    public function __construct()
+    public function __construct(private CategoryRepository $categoryRepository)
     {
         $this->urlValidator = new UrlValidator();
     }
@@ -25,10 +26,13 @@ class VideoFactory implements iVideoFactory
      */
     public function createEntity(object $video): Video
     {
+        $category = $this->categoryRepository->show($video->categoryId);
+
         $entity = new Video();
         $entity->title = $video->title;
         $entity->description = $video->description;
         $entity->url = $video->url;
+        $entity->category = $category;
         $entity->createdAt = new DateTimeImmutable();
 
         return $entity;
@@ -70,7 +74,7 @@ class VideoFactory implements iVideoFactory
      */
     public function validateEntityParams(object $video): void
     {
-        $properties = ['title', 'description', 'url'];
+        $properties = ['title', 'description', 'url', 'categoryId'];
 
         foreach ($properties as $key) {
             if (!property_exists($video, $key)) {
