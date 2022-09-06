@@ -86,4 +86,16 @@ class VideoController extends AbstractController implements iController
             return HttpResponse::badRequest($e->getMessage());
         }
     }
+
+    #[Route(path: '/api/category/{id}/videos', name: 'get_by_category', methods: ['GET'])]
+    public function getByCategory(int $id): JsonResponse
+    {
+        try {
+            $data = $this->videoUseCase->findByCategory($id);
+
+            return HttpResponse::ok($data);
+        } catch (\Exception $e) {
+            return HttpResponse::badRequest($e->getMessage());
+        }
+    }
 }

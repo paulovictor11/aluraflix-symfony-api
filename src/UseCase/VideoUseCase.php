@@ -9,6 +9,7 @@ use App\Interface\Factory\iVideoFactory;
 use App\Interface\Repository\iVideoRepository;
 use App\Interface\UseCase\iVideoUseCase;
 use App\Presentation\Error\NotFoundError;
+use MissingParamError;
 
 class VideoUseCase implements iVideoUseCase
 {
@@ -89,6 +90,20 @@ class VideoUseCase implements iVideoUseCase
         $this->videoRepository->delete($id);
 
         return;
+    }
+
+    /**
+     * @param int $categoryId
+     * @return Video[]
+     * @throws MissingParamError
+     */
+    public function findByCategory(int $categoryId): array
+    {
+        if (is_null($categoryId)) {
+            throw new MissingParamError('category id');
+        }
+
+        return $this->videoRepository->findByCategory($categoryId);
     }
 
     /**

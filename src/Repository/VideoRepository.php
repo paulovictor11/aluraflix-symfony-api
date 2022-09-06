@@ -81,4 +81,13 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
 
         return;
     }
+
+    /**
+     * @param int $categoryId
+     * @return Video[]
+     */
+    public function findByCategory(int $categoryId): array
+    {
+        return $this->findBy(["category" => $categoryId]);
+    }
 }

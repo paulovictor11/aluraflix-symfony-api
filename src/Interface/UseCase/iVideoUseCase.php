@@ -11,4 +11,5 @@ interface iVideoUseCase
     public function show(int $id): Video;
     public function update(string $requestData, int $id): void;
     public function delete(int $id): void;
+    public function findByCategory(int $categoryId): array;
 }

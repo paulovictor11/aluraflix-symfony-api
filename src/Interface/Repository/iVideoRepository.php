@@ -11,4 +11,5 @@ interface iVideoRepository
     public function show(int $id): ?Video;
     public function update(Video $video, int $id): void;
     public function delete(int $id): void;
+    public function findByCategory(int $categoryId): array;
 }
