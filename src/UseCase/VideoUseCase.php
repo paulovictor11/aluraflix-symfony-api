@@ -107,6 +107,20 @@ class VideoUseCase implements iVideoUseCase
     }
 
     /**
+     * @param string $name
+     * @return Video[]
+     * @throws MissingParamError
+     */
+    public function findByName(string $title): array
+    {
+        if (is_null($title)) {
+            throw new MissingParamError("video title");
+        }
+
+        return $this->videoRepository->findByName($title);
+    }
+
+    /**
      * @param int $id
      * @return Video
      * @throws NotFoundError

@@ -25,9 +25,15 @@ class VideoController extends AbstractController implements iController
     }
 
     #[Route(path: '/api/videos', name: 'all_videos', methods: ['GET'])]
-    public function all(): JsonResponse
+    public function all(Request $request): JsonResponse
     {
         try {
+            if ($search = $request->query->get('search')) {
+                $entities = $this->videoUseCase->findByName($search);
+
+                return HttpResponse::ok($entities);
+            }
+
             /** @var Video[] $entities */
             $entities = $this->videoUseCase->all();
 

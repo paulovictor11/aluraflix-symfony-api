@@ -23,7 +23,7 @@ class CategoryController extends AbstractController implements iController
     }
 
     #[Route(path: '/api/categories', name: 'all_categories', methods: ['GET'])]
-    public function all(): JsonResponse
+    public function all(Request $request): JsonResponse
     {
         try {
             /** @var Category[] $entities */

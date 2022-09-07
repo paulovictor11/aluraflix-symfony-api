@@ -90,4 +90,18 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
     {
         return $this->findBy(["category" => $categoryId]);
     }
+
+    /**
+     * @param string $name
+     * @return Video[]
+     */
+    public function findByName(string $title): array
+    {
+        $qb = $this->createQueryBuilder('v')
+            ->where('v.title LIKE :title')
+            ->setParameter('title', "%$title%");
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
 }
