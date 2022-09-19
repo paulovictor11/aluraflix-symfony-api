@@ -9,6 +9,7 @@ use App\Interface\Factory\iVideoFactory;
 use App\Interface\Repository\iVideoRepository;
 use App\Interface\UseCase\iVideoUseCase;
 use App\Presentation\Error\NotFoundError;
+use App\Util\Error\InvalidParamError;
 use MissingParamError;
 
 class VideoUseCase implements iVideoUseCase
@@ -16,8 +17,8 @@ class VideoUseCase implements iVideoUseCase
     private iVideoFactory $videoFactory;
 
     public function __construct(
-        private iVideoRepository $videoRepository,
-        private iCategoryRepository $categoryRepository
+        private readonly iVideoRepository $videoRepository,
+        private readonly iCategoryRepository $categoryRepository
     ) {
         $this->videoFactory = new VideoFactory($categoryRepository);
     }
@@ -25,14 +26,21 @@ class VideoUseCase implements iVideoUseCase
     /**
      * @return Video[]
      */
-    public function all(): array
+    public function all(array $filter, array $sort, int $page, int $perPage): array
     {
-        return $this->videoRepository->all();
+        return $this->videoRepository->all(
+            $filter,
+            $sort,
+            $page,
+            $perPage
+        );
     }
 
     /**
      * @param string $requestData
      * @return void
+     * @throws InvalidParamError
+     * @throws MissingParamError
      */
     public function create(string $requestData): void
     {
@@ -43,27 +51,26 @@ class VideoUseCase implements iVideoUseCase
         $entity = $this->videoFactory->createEntity($data);
 
         $this->videoRepository->add($entity);
-
-        return;
     }
 
     /**
      * @param int $id
      * @return Video
+     * @throws MissingParamError
+     * @throws NotFoundError
      */
     public function show(int $id): Video
     {
         $this->videoFactory->validateEntityId($id);
-
-        $entity = $this->checkIfEntityExists($id);
-
-        return $entity;
+        return $this->checkIfEntityExists($id);
     }
 
     /**
      * @param string $requestData
      * @param int $id
      * @return void
+     * @throws MissingParamError
+     * @throws NotFoundError
      */
     public function update(string $requestData, int $id): void
     {
@@ -75,21 +82,19 @@ class VideoUseCase implements iVideoUseCase
         $entity = $this->videoFactory->updateEntity($data, $existEntity);
 
         $this->videoRepository->update($entity, $id);
-
-        return;
     }
 
     /**
      * @param int $id
      * @return void
+     * @throws MissingParamError
+     * @throws NotFoundError
      */
     public function delete(int $id): void
     {
         $this->videoFactory->validateEntityId($id);
         $this->checkIfEntityExists($id);
         $this->videoRepository->delete($id);
-
-        return;
     }
 
     /**
@@ -107,13 +112,13 @@ class VideoUseCase implements iVideoUseCase
     }
 
     /**
-     * @param string $name
-     * @return Video[]
+     * @param string $title
+     * @return array
      * @throws MissingParamError
      */
     public function findByName(string $title): array
     {
-        if (is_null($title)) {
+        if (empty($title)) {
             throw new MissingParamError("video title");
         }
 

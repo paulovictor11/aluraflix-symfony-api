@@ -15,13 +15,13 @@ class VideoFactory implements iVideoFactory
 {
     private iUrlValidator $urlValidator;
 
-    public function __construct(private CategoryRepository $categoryRepository)
+    public function __construct(private readonly CategoryRepository $categoryRepository)
     {
         $this->urlValidator = new UrlValidator();
     }
 
     /**
-     * @param Video $video
+     * @param object $video
      * @return Video
      */
     public function createEntity(object $video): Video
@@ -39,8 +39,8 @@ class VideoFactory implements iVideoFactory
     }
 
     /**
-     * @param Video $update
-     * @param Video $exist
+     * @param object $update
+     * @param object $exist
      * @return Video
      */
     public function updateEntity(object $update, object $exist): Video
@@ -68,9 +68,10 @@ class VideoFactory implements iVideoFactory
     }
 
     /**
-     * @param Video $video
+     * @param object $video
      * @return void
-     * @throws MissingParamError|InvalidParamError
+     * @throws InvalidParamError
+     * @throws MissingParamError
      */
     public function validateEntityParams(object $video): void
     {

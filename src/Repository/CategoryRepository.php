@@ -17,9 +17,14 @@ class CategoryRepository extends ServiceEntityRepository implements iCategoryRep
     /**
      * @return Category[]
      */
-    public function all(): array
+    public function all(array $filter, array $sort, int $page, int $perPage): array
     {
-        return $this->findAll();
+        return $this->findBy(
+            $filter,
+            $sort,
+            $perPage,
+            ($page - 1) * $perPage
+        );
     }
 
     /**

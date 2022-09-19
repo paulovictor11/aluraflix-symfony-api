@@ -8,6 +8,7 @@ use App\Interface\UseCase\iCategoryUseCase;
 use App\Presentation\Helper\HttpResponse;
 use App\Repository\CategoryRepository;
 use App\UseCase\CategoryUseCase;
+use App\Util\Helper\DataExtractor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,8 +27,12 @@ class CategoryController extends AbstractController implements iController
     public function all(Request $request): JsonResponse
     {
         try {
+            $filter = DataExtractor::filterData($request);
+            $sort = DataExtractor::sortData($request);
+            [$page, $perPage] = DataExtractor::paginationData($request);
+
             /** @var Category[] $entities */
-            $entities = $this->categoryUseCase->all();
+            $entities = $this->categoryUseCase->all($filter, $sort, $page, $perPage);
 
             return HttpResponse::ok($entities);
         } catch (\Exception $e) {

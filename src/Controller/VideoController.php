@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Video;
 use App\Interface\Controller\iController;
 use App\Interface\UseCase\iVideoUseCase;
 use App\Presentation\Helper\HttpResponse;
 use App\Repository\CategoryRepository;
 use App\Repository\VideoRepository;
 use App\UseCase\VideoUseCase;
+use App\Util\Helper\DataExtractor;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,11 +37,15 @@ class VideoController extends AbstractController implements iController
                 return HttpResponse::ok($entities);
             }
 
+            $filter = DataExtractor::filterData($request);
+            $sort = DataExtractor::sortData($request);
+            [$page, $perPage] = DataExtractor::paginationData($request);
+
             /** @var Video[] $entities */
-            $entities = $this->videoUseCase->all();
+            $entities = $this->videoUseCase->all($filter, $sort, $page, $perPage);
 
             return HttpResponse::ok($entities);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return HttpResponse::badRequest($e->getMessage());
         }
     }
@@ -51,7 +58,7 @@ class VideoController extends AbstractController implements iController
             $this->videoUseCase->create($data);
 
             return HttpResponse::created();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return HttpResponse::badRequest($e->getMessage());
         }
     }
@@ -63,7 +70,7 @@ class VideoController extends AbstractController implements iController
             $entity = $this->videoUseCase->show($id);
 
             return HttpResponse::ok($entity);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return HttpResponse::badRequest($e->getMessage());
         }
     }
@@ -76,7 +83,7 @@ class VideoController extends AbstractController implements iController
             $this->videoUseCase->update($data, $id);
 
             return HttpResponse::ok();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return HttpResponse::badRequest($e->getMessage());
         }
     }
@@ -88,7 +95,7 @@ class VideoController extends AbstractController implements iController
             $this->videoUseCase->delete($id);
 
             return HttpResponse::ok();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return HttpResponse::badRequest($e->getMessage());
         }
     }
@@ -100,7 +107,7 @@ class VideoController extends AbstractController implements iController
             $data = $this->videoUseCase->findByCategory($id);
 
             return HttpResponse::ok($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return HttpResponse::badRequest($e->getMessage());
         }
     }

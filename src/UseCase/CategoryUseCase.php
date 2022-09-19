@@ -21,9 +21,14 @@ class CategoryUseCase implements iCategoryUseCase
     /**
      * @return Category[]
      */
-    public function all(): array
+    public function all(array $filter, array $sort, int $page, int $perPage): array
     {
-        return $this->categoryRepository->all();
+        return $this->categoryRepository->all(
+            $filter,
+            $sort,
+            $page,
+            $perPage
+        );
     }
 
     /**

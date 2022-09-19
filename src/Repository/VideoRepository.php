@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Video;
 use App\Interface\Repository\iVideoRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 class VideoRepository extends ServiceEntityRepository implements iVideoRepository
@@ -17,9 +18,14 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
     /**
      * @return Video[]
      */
-    public function all(): array
+    public function all(array $filter, array $sort, int $page, int $perPage): array
     {
-        return $this->findAll();
+        return $this->findBy(
+            $filter,
+            $sort,
+            $perPage,
+            ($page - 1) * $perPage
+        );
     }
 
     /**
@@ -30,8 +36,6 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
     {
         $this->getEntityManager()->persist($video);
         $this->getEntityManager()->flush();
-
-        return;
     }
 
     /**
@@ -52,6 +56,7 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
      * @param Video $video
      * @param int $id
      * @return void
+     * @throws ORMException
      */
     public function update(Video $video, int $id): void
     {
@@ -64,13 +69,12 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
         $entity->updatedAt = $video->updatedAt;
 
         $this->getEntityManager()->flush();
-
-        return;
     }
 
     /**
      * @param int $id
      * @return void
+     * @throws ORMException
      */
     public function delete(int $id): void
     {
@@ -78,8 +82,6 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
 
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
-
-        return;
     }
 
     /**
@@ -92,8 +94,8 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
     }
 
     /**
-     * @param string $name
-     * @return Video[]
+     * @param string $title
+     * @return array
      */
     public function findByName(string $title): array
     {
