@@ -111,4 +111,16 @@ class VideoController extends AbstractController implements iController
             return HttpResponse::badRequest($e->getMessage());
         }
     }
+
+    #[Route(path: 'api/videos/free', name: 'free_videos', methods: ['GET'])]
+    public function freeVideos(): JsonResponse
+    {
+        try {
+            $data = $this->videoUseCase->freeVideos();
+
+            return HttpResponse::ok($data);
+        } catch (Exception $e) {
+            return HttpResponse::badRequest($e->getMessage());
+        }
+    }
 }

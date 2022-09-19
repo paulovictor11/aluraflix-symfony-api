@@ -126,6 +126,14 @@ class VideoUseCase implements iVideoUseCase
     }
 
     /**
+     * @return array
+     */
+    public function freeVideos(): array
+    {
+        return $this->videoRepository->freeVideos();
+    }
+
+    /**
      * @param int $id
      * @return Video
      * @throws NotFoundError

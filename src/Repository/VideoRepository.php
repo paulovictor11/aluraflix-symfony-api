@@ -106,4 +106,12 @@ class VideoRepository extends ServiceEntityRepository implements iVideoRepositor
         $query = $qb->getQuery();
         return $query->execute();
     }
+
+    /**
+     * @return array
+     */
+    public function freeVideos(): array
+    {
+        return $this->findBy([], [], 10);
+    }
 }

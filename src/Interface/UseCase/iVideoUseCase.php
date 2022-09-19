@@ -13,4 +13,5 @@ interface iVideoUseCase
     public function delete(int $id): void;
     public function findByCategory(int $categoryId): array;
     public function findByName(string $title): array;
+    public function freeVideos(): array;
 }
