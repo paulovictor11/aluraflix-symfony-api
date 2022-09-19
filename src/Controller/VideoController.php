@@ -11,6 +11,7 @@ use App\Repository\VideoRepository;
 use App\UseCase\VideoUseCase;
 use App\Util\Helper\DataExtractor;
 use Exception;
+use Kafkiansky\SymfonyMiddleware\Attribute\Middleware;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class VideoController extends AbstractController implements iController
         $this->videoUseCase = new VideoUseCase($videoRepository, $categoryRepository);
     }
 
+    #[Middleware(['api'])]
     #[Route(path: '/api/videos', name: 'all_videos', methods: ['GET'])]
     public function all(Request $request): JsonResponse
     {
@@ -50,6 +52,7 @@ class VideoController extends AbstractController implements iController
         }
     }
 
+    #[Middleware(['api'])]
     #[Route(path: '/api/videos', name: 'create_video', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
@@ -63,6 +66,7 @@ class VideoController extends AbstractController implements iController
         }
     }
 
+    #[Middleware(['api'])]
     #[Route(path: '/api/video/{id}', name: 'get_video', methods: ['GET'])]
     public function show(int $id): JsonResponse
     {
@@ -75,6 +79,7 @@ class VideoController extends AbstractController implements iController
         }
     }
 
+    #[Middleware(['api'])]
     #[Route(path: '/api/video/{id}', name: 'update_video', methods: ['PUT', 'PATCH'])]
     public function update(Request $request, int $id): JsonResponse
     {
@@ -88,6 +93,7 @@ class VideoController extends AbstractController implements iController
         }
     }
 
+    #[Middleware(['api'])]
     #[Route(path: '/api/video/{id}', name: 'delete_video', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
@@ -100,6 +106,7 @@ class VideoController extends AbstractController implements iController
         }
     }
 
+    #[Middleware(['api'])]
     #[Route(path: '/api/category/{id}/videos', name: 'get_by_category', methods: ['GET'])]
     public function getByCategory(int $id): JsonResponse
     {

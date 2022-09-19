@@ -1,0 +1,5 @@
+symiddleware:
+    groups:
+        api:
+            middlewares:
+                - App\Middleware\Authenticate

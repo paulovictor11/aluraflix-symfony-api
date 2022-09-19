@@ -9,11 +9,13 @@ use App\Presentation\Helper\HttpResponse;
 use App\Repository\CategoryRepository;
 use App\UseCase\CategoryUseCase;
 use App\Util\Helper\DataExtractor;
+use Kafkiansky\SymfonyMiddleware\Attribute\Middleware;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Middleware(['api'])]
 class CategoryController extends AbstractController implements iController
 {
     private iCategoryUseCase $categoryUseCase;
