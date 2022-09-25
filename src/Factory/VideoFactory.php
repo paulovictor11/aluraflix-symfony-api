@@ -7,9 +7,9 @@ use App\Interface\Factory\iVideoFactory;
 use App\Interface\Helper\iUrlValidator;
 use App\Repository\CategoryRepository;
 use App\Util\Error\InvalidParamError;
+use App\Util\Error\MissingParamError;
 use App\Util\Helper\UrlValidator;
 use DateTimeImmutable;
-use MissingParamError;
 
 class VideoFactory implements iVideoFactory
 {

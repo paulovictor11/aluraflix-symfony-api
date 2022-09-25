@@ -4,14 +4,13 @@ namespace App\Factory;
 
 use App\Entity\Category;
 use App\Interface\Factory\iCategoryFactory;
-use App\Util\Error\InvalidParamError;
+use App\Util\Error\MissingParamError;
 use DateTimeImmutable;
-use MissingParamError;
 
 class CategoryFactory implements iCategoryFactory
 {
     /**
-     * @param Category $category
+     * @param object $category
      * @return Category
      */
     public function createEntity(object $category): Category
@@ -25,8 +24,8 @@ class CategoryFactory implements iCategoryFactory
     }
 
     /**
-     * @param Category $update
-     * @param Category $exist
+     * @param object $update
+     * @param object $exist
      * @return Category
      */
     public function updateEntity(object $update, object $exist): Category
@@ -47,28 +46,8 @@ class CategoryFactory implements iCategoryFactory
      */
     public function validateEntityId(int $id): void
     {
-        if (is_null($id)) {
+        if (empty($id)) {
             throw new MissingParamError('id');
-        }
-    }
-
-    /**
-     * @param Category $category
-     * @return void
-     * @throws MissingParamError|InvalidParamError
-     */
-    public function validateEntityParams(object $category): void
-    {
-        $properties = ['title', 'color'];
-
-        foreach ($properties as $key) {
-            if (!property_exists($category, $key)) {
-                throw new MissingParamError($key);
-            }
-
-            if (empty($category->$key)) {
-                throw new InvalidParamError($key);
-            }
         }
     }
 }

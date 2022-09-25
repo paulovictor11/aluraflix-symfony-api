@@ -3,13 +3,18 @@
 namespace App\Util\Helper;
 
 use App\Interface\Helper\iEmailValidator;
-use MissingParamError;
+use App\Util\Error\MissingParamError;
 
 class EmailValidator implements iEmailValidator
 {
+    /**
+     * @param string $email
+     * @return bool
+     * @throws MissingParamError
+     */
     public static function isValid(string $email): bool
     {
-        if (is_null($email)) {
+        if (empty($email)) {
             throw new MissingParamError('email');
         }
 

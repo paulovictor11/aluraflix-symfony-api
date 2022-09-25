@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HttpResponse implements iHttpResponse
 {
-    /** @return JsonResponse */
+    /**
+     * @return JsonResponse
+     */
     public static function serverError(): JsonResponse
     {
         return new JsonResponse(
@@ -30,7 +32,7 @@ class HttpResponse implements iHttpResponse
     }
 
     /**
-     * @param string $message
+     * @param string|null $message
      * @return JsonResponse
      */
     public static function badRequest(?string $message = ""): JsonResponse
@@ -41,14 +43,16 @@ class HttpResponse implements iHttpResponse
         );
     }
 
-    /** @return JsonResponse */
+    /**
+     * @return JsonResponse
+     */
     public static function created(): JsonResponse
     {
         return new JsonResponse(null, Response::HTTP_CREATED);
     }
 
     /**
-     * @param array|object $body
+     * @param array|object|null $body
      * @return JsonResponse
      */
     public static function ok(array|object $body = null): JsonResponse

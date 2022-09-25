@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Util\Error\MissingParamError;
 use App\Util\Helper\TokenGenerator;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,6 +13,12 @@ use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class Authenticate implements MiddlewareInterface
 {
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     * @throws MissingParamError
+     */
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
@@ -30,7 +37,7 @@ class Authenticate implements MiddlewareInterface
             return new Response(
                 HttpFoundationResponse::HTTP_UNAUTHORIZED,
                 [],
-                json_encode(['message' => 'Token Malformatted'])
+                json_encode(['message' => 'Token Malformed'])
             );
         }
 

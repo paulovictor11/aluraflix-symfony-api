@@ -7,13 +7,14 @@ use App\Interface\UseCase\iAuthUseCase;
 use App\Presentation\Error\NotFoundError;
 use App\Presentation\Error\UnauthorizedError;
 use App\Util\Error\InvalidParamError;
+use App\Util\Error\MissingParamError;
 use App\Util\Helper\EmailValidator;
 use App\Util\Helper\Encrypter;
 use App\Util\Helper\TokenGenerator;
 
 class AuthUseCase implements iAuthUseCase
 {
-    public function __construct(private iUserRepository $userRepository)
+    public function __construct(private readonly iUserRepository $userRepository)
     {
     }
 
@@ -23,6 +24,7 @@ class AuthUseCase implements iAuthUseCase
      * @throws InvalidParamError
      * @throws NotFoundError
      * @throws UnauthorizedError
+     * @throws MissingParamError
      */
     public function login(string $requestData): array
     {

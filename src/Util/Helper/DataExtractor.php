@@ -7,20 +7,32 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DataExtractor implements iDataExtractor
 {
-    public static function filterData(Request $request)
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public static function filterData(Request $request): mixed
     {
         [$filter] = self::requestData($request);
 
         return $filter;
     }
 
-    public static function sortData(Request $request)
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public static function sortData(Request $request): mixed
     {
         [, $sort] = self::requestData($request);
 
         return $sort;
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public static function paginationData(Request $request): array
     {
         [,, $page, $perPage] = self::requestData($request);
@@ -28,6 +40,10 @@ class DataExtractor implements iDataExtractor
         return [$page, $perPage];
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     private static function requestData(Request $request): array
     {
         $queryString = $request->query->all();

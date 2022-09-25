@@ -3,13 +3,18 @@
 namespace App\Util\Helper;
 
 use App\Interface\Helper\iUrlValidator;
-use MissingParamError;
+use App\Util\Error\MissingParamError;
 
 class UrlValidator implements iUrlValidator
 {
+    /**
+     * @param string $url
+     * @return bool
+     * @throws MissingParamError
+     */
     public static function isValid(string $url): bool
     {
-        if (is_null($url)) {
+        if (empty($url)) {
             throw new MissingParamError('url');
         }
 

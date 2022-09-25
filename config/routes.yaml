@@ -1,3 +1,81 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
+# controllers:
+#     resource: ../src/Controller/
+#     type: attribute
+
+# Category Routes
+all_categories:
+    path: /api/categories
+    controller: App\Controller\CategoryController::all
+    methods:
+        - GET
+create_category:
+    path: /api/categories
+    controller: App\Controller\CategoryController::create
+    methods:
+        - POST
+get_category:
+    path: /api/category/{id}
+    controller: App\Controller\CategoryController::show
+    methods:
+        - GET
+update_category:
+    path: /api/category/{id}
+    controller: App\Controller\CategoryController::update
+    methods:
+        - PUT
+        - PATCH
+delete_category:
+    path: /api/category/{id}
+    controller: App\Controller\CategoryController::delete
+    methods:
+        - DELETE
+
+# Videos Routes
+all_videos:
+    path: /api/videos
+    controller: App\Controller\VideoController::all
+    methods:
+        - GET
+create_video:
+    path: /api/videos
+    controller: App\Controller\VideoController::create
+    methods:
+        - POST
+get_video:
+    path: /api/video/{id}
+    controller: App\Controller\VideoController::show
+    methods:
+        - GET
+update_video:
+    path: /api/video/{id}
+    controller: App\Controller\VideoController::update
+    methods:
+        - PUT
+        - PATCH
+delete_video:
+    path: /api/video/{id}
+    controller: App\Controller\VideoController::delete
+    methods:
+        - DELETE
+get_by_category:
+    path: /api/category/{id}/videos
+    controller: App\Controller\VideoController::getByCategory
+    methods:
+        - GET
+free_videos:
+    path: /api/videos/free
+    controller: App\Controller\VideoController::freeVideos
+    methods:
+        - GET
+
+# Auth Routes
+login:
+    path: /api/login
+    controller: App\Controller\AuthController::login
+    methods:
+        - POST
+register:
+    path: /api/register
+    controller: App\Controller\AuthController::register
+    methods:
+        - POST
